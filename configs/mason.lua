@@ -5,7 +5,7 @@ local mason_lsp = {
     'pyright',
     'rust_analyzer',
     'taplo',
-    'tsserver',
+    'ts_ls',
 }
 
 local mason_tools = {
@@ -27,7 +27,7 @@ local mason_tools = {
 
 local all_tools = {}
 
-require("custom/mapping_functions").table_merge(mason_lsp, mason_tools, all_tools)
+require("mapping_functions").table_merge(mason_lsp, mason_tools, all_tools)
 
 return {
     "williamboman/mason.nvim",

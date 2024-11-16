@@ -1,214 +1,66 @@
-local M = {}
+require "nvchad.mappings"
 
-M.general = {
-    n = {
-        ["<leader>I"] = {
-            "<cmd> Lazy sync <CR>",
-            "Update plugins"
-        },
-        ["<C-h>"] = {
-            "<cmd> TmuxNavigateLeft <CR>",
-            "Window Left"
-        },
-        ["<C-j>"] = {
-            "<cmd> TmuxNavigateDown <CR>",
-            "Window Down"
-        },
-        ["<C-k>"] = {
-            "<cmd> TmuxNavigateUp <CR>",
-            "Window Up"
-        },
-        ["<C-l>"] = {
-            "<cmd> TmuxNavigateRight <CR>",
-            "Window Right"
-        },
-    }
-}
+local map = vim.keymap.set
 
-M.dap = {
-    -- plugin = true,
-    n = {
-        ["<leader>db"] = {
-            "<cmd> DapToggleBreakpoint <CR>",
-            "Toggle Breakpoint"
-        },
-        -- ["<leader>dr"] = {
-        --     "<cmd> RustDebuggables <CR>",
-        --     "Start debugger"
-        -- },
-        ["<leader>dr"] = {
-            "<cmd> DapContinue <CR>",
-            "Start debugger"
-        },
-        ["<leader>dn"] = {
-            "<cmd> DapStepOver <CR>",
-            "Debugger Step Over"
-        },
-        ["<leader>dt"] = {
-            "<cmd> DapTerminate <CR>",
-            "Debugger Stop"
-        },
-        ["<leader>dsi"] = {
-            "<cmd> DapStepIn <CR>",
-            "Debugger Step In"
-        },
-        ["<leader>dso"] = {
-            "<cmd> DapStepOut <CR>",
-            "Debugger Step Out"
-        },
-        -- ["<leader>dus"] = {
-        --     function()
-        --         local widgets = require('dap.ui.widgets');
-        --         local sidebar = widgets.sidebar(widgets.scopes);
-        --         sidebar.open();
-        --     end,
-        --     "Open Debugging Sidebar"
-        -- }
-    }
-}
+map({ "n" }, "<leader>I", "<cmd> Lazy sync <CR>", { desc = "Update plugins" })
+map({ "n" }, "<C-h>", "<cmd> TmuxNavigateLeft <CR>", { desc = "Window Left" })
+map({ "n" }, "<C-j>", "<cmd> TmuxNavigateDown <CR>", { desc = "Window Down" })
+map({ "n" }, "<C-k>", "<cmd> TmuxNavigateUp <CR>", { desc = "Window Up" })
+map({ "n" }, "<C-l>", "<cmd> TmuxNavigateRight <CR>", { desc = "Window Right" })
 
-M.rust = {
-    n = {
-        ["<leader>rcu"] = {
-            function()
-                require("crates").upgrade_all_crates()
-            end,
-            "Update all crates"
-        },
-        -- ["<leader>k"] = {
-        --     function()
-        --         local rt = require('rust-tools')
-        --         rt.hover_actions.hover_actions()
-        --     end,
-        --     "Run/Debug/Info"
-        -- },
-        -- ["<leader>a"] = {
-        --     function()
-        --         local rt = require('rust-tools')
-        --         rt.code_action_group.code_action_group()
-        --     end,
-        --     "Refactor/Actions"
-        -- }
-    }
-}
-M.lspsaga = {
-    n = {
-        ['<leader>gtd'] = {
-            "<cmd>Lspsaga goto_definition<cr>",
-            "Go to definition (Lspsaga)"
-        },
-        ['<leader>pd'] = {
-            "<cmd>Lspsaga peek_definition<cr>",
-            "Peek Definition (Lspsaga)"
-        },
-        ['<leader>fci'] = {
-            "<cmd>Lspsaga incoming_calls<cr>",
-            "Incoming Function Calls"
-        },
-        ['<leader>fco'] = {
-            "<cmd>Lspsaga outgoing_calls<cr>",
-            "Function Calls (Outgoing)"
-        },
-        ['<leader>fs'] = {
-            "<cmd>Lspsaga finder<cr>",
-            "Find Symbol Usage"
-        },
-        ['<leader>fsr'] = {
-            "<cmd>Lspsaga finder ref<cr>",
-            "Find Symbol References"
-        },
-        ['<leader>fsi'] = {
-            "<cmd>Lspsaga finder imp<cr>",
-            "Find Symbol Implementations"
-        },
-        ['<leader>wd'] = {
-            "<cmd>Lspsaga show_workspace_diagnostics ++normal<cr>",
-            "Show Workspace Problems"
-        },
-        ['<leader>bd'] = {
-            "<cmd>Lspsaga show_buf_diagnostics ++normal<cr>",
-            "Show Buffer Problems"
-        },
-        ['[d'] = {
-            "<cmd>Lspsaga diagnostic_jump_prev<cr>",
-            "Diagnostic Prev"
-        },
-        [']d'] = {
-            "<cmd>Lspsaga diagnostic_jump_next<cr>",
-            "Diagnostic Next"
-        },
-        ['<leader>k'] = {
-            "<cmd>Lspsaga hover_doc<cr>",
-            "Hover Docs"
-        },
-        ['<leader>ra'] = {
-            "<cmd>Lspsaga rename<cr>",
-            "Rename Symbol",
-        },
-        ['<leader>co'] = {
-            "<cmd>Lspsaga outline<cr>",
-            "Code Outline"
-        },
-        ['<leader>a'] = {
-            "<cmd>Lspsaga code_action<cr>",
-            "Code Actions"
-        }
-    }
-}
+map({ "n" }, "<leader>db", "<cmd> DapToggleBreakpoint <CR>", { desc = "Toggle Breakpoint" })
+-- map({ "n" }, "<leader>dr", "<cmd> RustDebuggables <CR>", { desc "Start debugger" })
+map({ "n" }, "<leader>dr", "<cmd> DapContinue <CR>", { desc = "Start debugger" })
+map({ "n" }, "<leader>dn", "<cmd> DapStepOver <CR>", { desc = "Debugger Step Over" })
+map({ "n" }, "<leader>dt", "<cmd> DapTerminate <CR>", { desc = "Debugger Stop" })
+map({ "n" }, "<leader>dsi", "<cmd> DapStepIn <CR>", { desc = "Debugger Step In" })
+map({ "n" }, "<leader>dso", "<cmd> DapStepOut <CR>", { desc = "Debugger Step Out" })
+-- map({ "n" }, "<leader>dus", function()
+--   local widgets = require "dap.ui.widgets"
+--   local sidebar = widgets.sidebar(widgets.scopes)
+--   sidebar.open()
+-- end, { desc = "Open Debugging Sidebar" })
 
--- M.telescope = {
---     n = {
---         ["<leader>fs"] = {
---             function()
---                 require("telescope").extensions.live_grep_args.live_grep_args()
---             end,
---             "Live Grep Args"
---         }
---     }
--- }
+map({ "n" }, "<leader>rcu", function()
+  require("crates").upgrade_all_crates()
+end, { desc = "Update all crates" })
+-- map({ "n" }, "<leader>k", function()
+--   local rt = require "rust-tools"
+--   rt.hover_actions.hover_actions()
+-- end, { desc = "Run/Debug/Info" })
+-- map({ "n" }, "<leader>a", function()
+--   local rt = require "rust-tools"
+--   rt.code_action_group.code_action_group()
+-- end, { desc = "Refactor/Actions" })
 
-M.nvimtree = {
-    n = {
-        ["<leader>gs"] = {
-            require('custom.mapping_functions').git_stage,
-            "Git stage"
-        },
-        ["<leader>gus"] = {
-            require('custom.mapping_functions').git_unstage,
-            "Git unstage"
-        }
-    }
-}
+map({ "n" }, "<leader>gtd", "<cmd>Lspsaga goto_definition<cr>", { desc = "Go to definition (Lspsaga)" })
+map({ "n" }, "<leader>pd", "<cmd>Lspsaga peek_definition<cr>", { desc = "Peek Definition (Lspsaga)" })
+map({ "n" }, "<leader>fci", "<cmd>Lspsaga incoming_calls<cr>", { desc = "Incoming Function Calls" })
+map({ "n" }, "<leader>fco", "<cmd>Lspsaga outgoing_calls<cr>", { desc = "Function Calls (Outgoing)" })
+map({ "n" }, "<leader>fs", "<cmd>Lspsaga finder<cr>", { desc = "Find Symbol Usage" })
+map({ "n" }, "<leader>fsr", "<cmd>Lspsaga finder ref<cr>", { desc = "Find Symbol References" })
+map({ "n" }, "<leader>fsi", "<cmd>Lspsaga finder imp<cr>", { desc = "Find Symbol Implementations" })
+map({ "n" }, "<leader>wd", "<cmd>Lspsaga show_workspace_diagnostics ++normal<cr>", {
+  desc = "Show Workspace Problems",
+})
+map({ "n" }, "<leader>bd", "<cmd>Lspsaga show_buf_diagnostics ++normal<cr>", { desc = "Show Buffer Problems" })
+map({ "n" }, "[d", "<cmd>Lspsaga diagnostic_jump_prev<cr>", { desc = "Diagnostic Prev" })
+map({ "n" }, "]d", "<cmd>Lspsaga diagnostic_jump_next<cr>", { desc = "Diagnostic Next" })
+map({ "n" }, "<leader>k", "<cmd>Lspsaga hover_doc<cr>", { desc = "Hover Docs" })
+map({ "n" }, "<leader>ra", "<cmd>Lspsaga rename<cr>", { desc = "Rename Symbol" })
+map({ "n" }, "<leader>co", "<cmd>Lspsaga outline<cr>", { desc = "Code Outline" })
+map({ "n" }, "<leader>a", "<cmd>Lspsaga code_action<cr>", { desc = "Code Actions" })
 
-M.glow = {
-    n = {
-        ["<leader>md"] = {
-            require('custom.mapping_functions').preview_md,
-            "Preview Markdown File"
-        }
-    }
-}
+-- map({ "n" }, "<leader>fs", function()
+--   require("telescope").extensions.live_grep_args.live_grep_args()
+-- end, { desc = "Live Grep Args" })
 
-M.conform = {
-    n = {
-        ["<leader>fm"] = {
-            require('custom.mapping_functions').format_pretty,
-            "Conform Formatting"
-        }
-    }
-}
+map({ "n" }, "<leader>gs", require("mapping_functions").git_stage, { desc = "Git stage" })
+map({ "n" }, "<leader>gus", require("mapping_functions").git_unstage, { desc = "Git unstage" })
 
-M.venv = {
-    n = {
-        ["<leader>sv"] = {
-            "<cmd>VenvSelect<cr>",
-            "Select Virtual Environment"
-        },
-        ["<leader>sc"] = {
-            "<cmd>VenvSelectCached<cr>",
-            "Select Previous Virtual Environment"
-        }
-    }
-}
+map({ "n" }, "<leader>md", require("mapping_functions").preview_md, { desc = "Preview Markdown File" })
 
-return M
+map({ "n" }, "<leader>fm", require("mapping_functions").format_pretty, { desc = "Conform Formatting" })
+
+map({ "n" }, "<leader>sv", "<cmd>VenvSelect<cr>", { desc = "Select Virtual Environment" })
+map({ "n" }, "<leader>sc", "<cmd>VenvSelectCached<cr>", { desc = "Select Previous Virtual Environment" })

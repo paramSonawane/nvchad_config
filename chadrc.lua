@@ -1,42 +1,84 @@
-local highlights = require "custom.highlights"
-local M = {}
+local highlights = require "highlights"
 
-M.ui = {
-    theme = 'decay',
-    -- transparency = true,
-    statusline = {
-        theme = "vscode_colored",
-        -- modules arg here is the default table of modules
-        overriden_modules = function(modules)
-            -- modules[1] = (function()
-            --    return "MODE!"
-            -- end)()
+local options = {
 
-            local actived_venv = function()
-                local venv_name = require('venv-selector').get_active_venv()
-                if venv_name ~= nil then
-                    -- replace the path if it is of poetry
-                    venv_name = string.gsub(venv_name, '.*/pypoetry/virtualenvs/', '/(poetry) ')
-                    -- get the directory of the venv instead of entire path
-                    venv_name = string.match(venv_name, ".*/(.*)")
-                    return '  ' .. venv_name .. ' '
-                else
-                    return ''
-                end
-            end
-            table.insert(
-                modules,
-                13,
-                actived_venv()
-            )
-        end,
+  base46 = {
+    theme = "ashes", -- default theme
+    hl_add = {},
+    -- hl_override = {},
+    hl_override = highlights.override,
+    integrations = {},
+    changed_themes = {},
+    transparency = false,
+    theme_toggle = { "onedark", "one_light" },
+  },
+
+  ui = {
+    cmp = {
+      icons_left = false, -- only for non-atom styles!
+      lspkind_text = true,
+      style = "default", -- default/flat_light/flat_dark/atom/atom_colored
+      format_colors = {
+        tailwind = false, -- will work for css lsp too
+        icon = "󱓻",
+      },
     },
-    telescope = {
-        style = "bordered"
-    }, -- borderless / bordered
-    nvdash = {
-        load_on_startup = true,
-        header = {
+
+    telescope = { style = "borderless" }, -- borderless / bordered
+
+    statusline = {
+      enabled = true,
+      theme = "vscode_colored", -- default/vscode/vscode_colored/minimal
+      -- default/round/block/arrow separators work only for default statusline theme
+      -- round and block will work for minimal theme only
+      separator_style = "default",
+      order = nil,
+      modules = nil,
+      overriden_modules = function(modules)
+        -- modules[1] = (function()
+        --    return "MODE!"
+        -- end)()
+
+        local actived_venv = function()
+          local venv_name = require("venv-selector").get_active_venv()
+          if venv_name ~= nil then
+            -- replace the path if it is of poetry
+            venv_name = string.gsub(venv_name, ".*/pypoetry/virtualenvs/", "/(poetry) ")
+            -- get the directory of the venv instead of entire path
+            venv_name = string.match(venv_name, ".*/(.*)")
+            return "  " .. venv_name .. " "
+          else
+            return ""
+          end
+        end
+        table.insert(modules, 13, actived_venv())
+      end,
+    },
+
+    -- lazyload it when there are 1+ buffers
+    tabufline = {
+      enabled = true,
+      lazyload = true,
+      order = { "treeOffset", "buffers", "tabs", "btns" },
+      modules = nil,
+    },
+  },
+
+  nvdash = {
+    load_on_startup = true,
+    header = {
+      -- "                            ",
+      -- "     ▄▄         ▄ ▄▄▄▄▄▄▄   ",
+      -- "   ▄▀███▄     ▄██ █████▀    ",
+      -- "   ██▄▀███▄   ███           ",
+      -- "   ███  ▀███▄ ███           ",
+      -- "   ███    ▀██ ███           ",
+      -- "   ███      ▀ ███           ",
+      -- "   ▀██ █████▄▀█▀▄██████▄    ",
+      -- "     ▀ ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀   ",
+      -- "                            ",
+      "         Powered By        ",
+      -- "                   eovim          ",
             "                                                                       ",
             "                                                                     ",
             "       ████ ██████           █████      ██                     ",
@@ -47,46 +89,60 @@ M.ui = {
             "  ███████████ ███    ███ █████████ █████ █████ ████ █████  ",
             " ██████  █████████████████████ ████ █████ █████ ████ ██████ ",
             "                                                                       ",
-            -- "     ++01100101 01110101++             =ඏ=             ++10101110 10100110++      ",
-            -- "    +011100110110   01001111000      0♢0Ŧ0♢0      00011110010   011011001110+     ",
-            -- "+0110010001100101 0110000101100100   000卄000   0010011010000110 1010011000100110+",
-            -- " +01101101011000010111001001101011++00+0卄00++++11010110010011101000011010110110+ ",
-            -- "     0111001101100  0010110111001100100`⁆⁅´0010011001110110100  0011011001110     ",
-            -- "           011001100 110000101110010++=`⁆⁅´=++010011101000011 001100110           ",
-            -- "             +01 10100001100101011 10010ʞk01001 11010100110000101 10+             ",
-            -- "                  +0111010001101111  +01ʞk10+  1111011000101110+                  ",
-            -- "                      +110101011011  00.∴.00  110110101011+                       ",
-            -- "                       +01100101     0+1ʞk1+0    10100110+                        ",
-            -- "                       +1100101     +0+.∴.+0+     1010011+                        ",
-            -- "                         +1110010   +0+.∴.+0+   0100111+                          ",
-            -- "                           +1110100  01 ∴ 10  0010111+                            ",
-            -- "                                     10 ∴ 01                                      ",
-            -- "                                     10`∵´01                                      ",
-            -- "                                      00.00                                       ",
-            -- "                                       : :                                        ",
-            --     "███╗░░██╗██╗░░░██╗░█████╗░██╗░░██╗░█████╗░██████╗░",
-            --     "████╗░██║██║░░░██║██╔══██╗██║░░██║██╔══██╗██╔══██╗",
-            --     "██╔██╗██║╚██╗░██╔╝██║░░╚═╝███████║███████║██║░░██║",
-            --     "██║╚████║░╚████╔╝░██║░░██╗██╔══██║██╔══██║██║░░██║",
-            --     "██║░╚███║░░╚██╔╝░░╚█████╔╝██║░░██║██║░░██║██████╔╝",
-            --     "╚═╝░░╚══╝░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═════╝░",
-        },
-
-        buttons = {
-            { "  Find File", "Spc f f", "Telescope find_files" },
-            { "󰈚  Recent Files", "Spc f o", "Telescope oldfiles" },
-            { "󰈭  Find Word", "Spc f w", "Telescope live_grep" },
-            { "  Bookmarks", "Spc m a", "Telescope marks" },
-            { "  Themes", "Spc t h", "Telescope themes" },
-            { "  Mappings", "Spc c h", "NvCheatsheet" },
-            { "  Quit", "ZZ", ":q!" },
-        }
     },
-    hl_override = highlights.override,
-}
 
-M.plugins = 'custom.plugins'
-M.mappings = require 'custom.mappings'
+    buttons = {
+      { txt = "  Find File", keys = "ff", cmd = "Telescope find_files" },
+      { txt = "  Recent Files", keys = "fo", cmd = "Telescope oldfiles" },
+      { txt = "󰈭  Find Word", keys = "fw", cmd = "Telescope live_grep" },
+      { txt = "󱥚  Themes", keys = "th", cmd = ":lua require('nvchad.themes').open()" },
+      { txt = "  Mappings", keys = "ch", cmd = "NvCheatsheet" },
+
+      { txt = "─", hl = "NvDashFooter", no_gap = true, rep = true },
+
+      {
+        txt = function()
+          local stats = require("lazy").stats()
+          local ms = math.floor(stats.startuptime) .. " ms"
+          return "  Loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms
+        end,
+        hl = "NvDashFooter",
+        no_gap = true,
+      },
+
+      { txt = "─", hl = "NvDashFooter", no_gap = true, rep = true },
+    },
+  },
+
+  term = {
+    winopts = { number = false, relativenumber = false },
+    sizes = { sp = 0.3, vsp = 0.2, ["bo sp"] = 0.3, ["bo vsp"] = 0.2 },
+    float = {
+      relative = "editor",
+      row = 0.3,
+      col = 0.25,
+      width = 0.5,
+      height = 0.4,
+      border = "single",
+    },
+  },
+
+  lsp = { signature = true },
+
+  cheatsheet = {
+    theme = "grid", -- simple/grid
+    excluded_groups = { "terminal (t)", "autopairs", "Nvim", "Opens" }, -- can add group name or with mode
+  },
+
+  mason = { pkgs = {}, skip = {} },
+
+  colorify = {
+    enabled = true,
+    mode = "virtual", -- fg, bg, virtual
+    virt_text = "󱓻 ",
+    highlight = { hex = true, lspvars = true },
+  },
+}
 
 vim.diagnostic.config({
     virtual_text = false,
@@ -111,4 +167,5 @@ vim.api.nvim_create_autocmd('VimEnter', {
     once = true,
 })
 
-return M
+local status, chadrc = pcall(require, "chadrc")
+return vim.tbl_deep_extend("force", options, status and chadrc or {})

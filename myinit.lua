@@ -1,4 +1,4 @@
-vim.g.maplocalleader = "\\"
+-- vim.g.maplocalleader = "\\"
 
 local opt = vim.opt
 
